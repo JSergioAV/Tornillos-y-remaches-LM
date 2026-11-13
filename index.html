@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fábrica de Tornillos y Remaches LM</title>
+<style>
+:root{
+  --verde:#1f7a3d; --verde-osc:#14572a; --verde-claro:#e6f3ea;
+  --gris:#4a5258; --gris-claro:#eef0f1; --borde:#c9ced1; --fondo:#f6f7f7; --texto:#22282c; --blanco:#fff;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --verde:#3fae65; --verde-osc:#2f8f50; --verde-claro:#1c2b22;
+    --gris:#b5bcc1; --gris-claro:#2a3034; --borde:#444c52; --fondo:#171b1e; --texto:#eef1f2; --blanco:#22282c;
+  }
+}
+:root[data-theme="dark"]{
+  --verde:#3fae65; --verde-osc:#2f8f50; --verde-claro:#1c2b22;
+  --gris:#b5bcc1; --gris-claro:#2a3034; --borde:#444c52; --fondo:#171b1e; --texto:#eef1f2; --blanco:#22282c;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--fondo);color:var(--texto);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:18px;line-height:1.45}
+.wrap{max-width:480px;margin:0 auto;padding:0 16px 24px}
+header{background:var(--verde);color:#fff;margin:0 -16px;padding:24px 20px 22px;text-align:center}
+header h1{margin:0;font-size:1.45rem;line-height:1.2}
+header p{margin:8px 0 0;font-size:1.2rem;font-weight:600;opacity:.95}
+.botones{display:grid;gap:12px;margin:20px 0 8px}
+.btn{min-height:56px;width:100%;border:2px solid var(--verde);border-radius:14px;background:var(--blanco);
+  color:var(--verde-osc);font:inherit;font-size:1.15rem;font-weight:700;padding:12px 14px;cursor:pointer;text-align:center;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.btn span{flex:1}
+.tornillo{width:22px;height:22px;flex:none;opacity:.5;color:var(--gris)}
+.btn[aria-expanded="true"] .tornillo{color:#fff;opacity:.7}
+:root[data-theme="dark"] .btn,
+@media (prefers-color-scheme: dark){ .btn{color:var(--verde)} }
+.btn[aria-expanded="true"]{background:var(--verde);color:#fff}
+.btn:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #f2b600;outline-offset:2px}
+form{display:none;background:var(--blanco);border:2px solid var(--verde);border-radius:14px;padding:16px;margin:4px 0 12px}
+form.abierto{display:block}
+label{display:block;font-weight:600;margin:12px 0 6px}
+label:first-of-type{margin-top:0}
+input,select{width:100%;min-height:52px;font:inherit;font-size:1.1rem;padding:10px 12px;border:2px solid var(--borde);
+  border-radius:10px;background:var(--fondo);color:var(--texto)}
+.enviar{margin-top:16px;min-height:56px;width:100%;border:0;border-radius:12px;background:var(--verde);color:#fff;
+  font:inherit;font-size:1.15rem;font-weight:700;cursor:pointer}
+.enviar:active{background:var(--verde-osc)}
+.nota{font-size:.95rem;color:var(--gris);margin:10px 0 0}
+section.info{background:var(--blanco);border:1px solid var(--borde);border-radius:14px;padding:16px;margin-top:16px}
+section.info h2{margin:0 0 10px;font-size:1.25rem;color:var(--verde-osc)}
+:root[data-theme="dark"] section.info h2{color:var(--verde)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) section.info h2{color:var(--verde)} }
+ul{margin:0;padding-left:22px}
+li{margin:6px 0}
+.horario p{margin:6px 0}
+footer{text-align:center;color:var(--gris);font-size:.95rem;margin-top:22px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="tornillo" viewBox="0 0 24 24"><rect x="4" y="1.5" width="16" height="4.5" rx="1.5" fill="currentColor"/><rect x="10" y="6" width="4" height="13" fill="currentColor"/><polygon points="10,19 14,19 12,23" fill="currentColor"/><g stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="7.5" y1="10" x2="16.5" y2="8"/><line x1="7.5" y1="13.5" x2="16.5" y2="11.5"/><line x1="7.5" y1="17" x2="16.5" y2="15"/></g></symbol></svg>
+<div class="wrap">
+  <header>
+    <h1>Fábrica de Tornillos y Remaches LM</h1>
+    <p>Tu compra en la red</p>
+  </header>
+
+  <div class="botones">
+    <button class="btn" type="button" data-form="f-agendar" aria-expanded="false" aria-controls="f-agendar"><svg class="tornillo" aria-hidden="true"><use href="#tornillo"/></svg><span>Agendar mi visita</span><svg class="tornillo" aria-hidden="true"><use href="#tornillo"/></svg></button>
+    <form id="f-agendar" data-tipo="agendar" novalidate>
+      <label for="a-nombre">Tu nombre</label>
+      <input id="a-nombre" name="nombre" type="text" autocomplete="name" required>
+      <label for="a-servicio">¿Qué necesitas?</label>
+      <select id="a-servicio" name="servicio" required>
+        <option value="">Elige una opción</option>
+        <option>Describir necesidades</option>
+        <option>Generación de pedido</option>
+        <option>Cotización</option>
+        <option>Otro</option>
+      </select>
+      <label for="a-dia">Día preferido</label>
+      <input id="a-dia" name="dia" type="date" required>
+      <button class="enviar" type="submit">Enviar por WhatsApp</button>
+      <p class="nota">Se abrirá WhatsApp con tu mensaje listo.</p>
+    </form>
+
+    <button class="btn" type="button" data-form="f-confirmar" aria-expanded="false" aria-controls="f-confirmar"><svg class="tornillo" aria-hidden="true"><use href="#tornillo"/></svg><span>Confirmar mi pedido</span><svg class="tornillo" aria-hidden="true"><use href="#tornillo"/></svg></button>
+    <form id="f-confirmar" data-tipo="confirmar" novalidate>
+      <label for="c-nombre">Tu nombre</label>
+      <input id="c-nombre" name="nombre" type="text" autocomplete="name" required>
+      <label for="c-fecha">Fecha de la reunión</label>
+      <input id="c-fecha" name="fecha" type="date" required>
+      <button class="enviar" type="submit">Enviar por WhatsApp</button>
+      <p class="nota">Se abrirá WhatsApp con tu mensaje listo.</p>
+    </form>
+
+    <button class="btn" type="button" data-form="f-reprogramar" aria-expanded="false" aria-controls="f-reprogramar"><svg class="tornillo" aria-hidden="true"><use href="#tornillo"/></svg><span>Reprogramar mi compra</span><svg class="tornillo" aria-hidden="true"><use href="#tornillo"/></svg></button>
+    <form id="f-reprogramar" data-tipo="reprogramar" novalidate>
+      <label for="r-nombre">Tu nombre</label>
+      <input id="r-nombre" name="nombre" type="text" autocomplete="name" required>
+      <label for="r-actual">Fecha actual de tu cita</label>
+      <input id="r-actual" name="actual" type="date" required>
+      <label for="r-nueva">Nueva fecha preferida</label>
+      <input id="r-nueva" name="nueva" type="date" required>
+      <button class="enviar" type="submit">Enviar por WhatsApp</button>
+      <p class="nota">Se abrirá WhatsApp con tu mensaje listo.</p>
+    </form>
+  </div>
+
+  <section class="info">
+    <h2>Antes de su reunión</h2>
+    <ul>
+      <li>Llega 10 minutos antes.</li>
+      <li>Avisa con 24 horas de anticipación si no puedes asistir.</li>
+      <li>Trae tu lista de requerimientos.</li>
+    </ul>
+  </section>
+
+  <section class="info horario">
+    <h2>Horario</h2>
+    <p><strong>Lunes a viernes:</strong> 9:00 am a 6:00 pm</p>
+    <p><strong>Sábados:</strong> 9:00 am a 1:00 pm</p>
+    <p class="nota">Azcapotzalco, CDMX</p>
+  </section>
+
+  <footer>
+    <p>🔒 Tus datos están protegidos conforme a la ley.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var NUM = "525551646921";
+  var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+
+  function fmt(iso){
+    var p = (iso || "").split("-");
+    if(p.length !== 3) return iso;
+    return parseInt(p[2],10) + " de " + MESES[parseInt(p[1],10)-1] + " de " + p[0];
+  }
+
+  // Fecha mínima: hoy
+  var hoy = new Date();
+  var iso = hoy.getFullYear() + "-" + String(hoy.getMonth()+1).padStart(2,"0") + "-" + String(hoy.getDate()).padStart(2,"0");
+  document.querySelectorAll('input[type="date"]').forEach(function(i){ i.min = iso; });
+
+  // Mostrar un formulario a la vez
+  var botones = document.querySelectorAll(".btn");
+  botones.forEach(function(b){
+    b.addEventListener("click", function(){
+      var id = b.getAttribute("data-form");
+      var f = document.getElementById(id);
+      var abrir = !f.classList.contains("abierto");
+      document.querySelectorAll("form").forEach(function(x){ x.classList.remove("abierto"); });
+      botones.forEach(function(x){ x.setAttribute("aria-expanded","false"); });
+      if(abrir){
+        f.classList.add("abierto");
+        b.setAttribute("aria-expanded","true");
+        setTimeout(function(){
+          f.scrollIntoView({behavior:"smooth", block:"center"});
+          var first = f.querySelector("input,select"); if(first) first.focus({preventScroll:true});
+        }, 50);
+      }
+    });
+  });
+
+  function mensaje(tipo, d){
+    if(tipo === "agendar"){
+      return "Hola, soy " + d.nombre + ". Quiero agendar una visita a la Fábrica de Tornillos y Remaches LM para: " +
+        d.servicio + ". Mi día preferido es el " + fmt(d.dia) + ". ¿Me confirman disponibilidad? Gracias.";
+    }
+    if(tipo === "confirmar"){
+      return "Hola, soy " + d.nombre + ". Confirmo mi pedido y mi reunión del " + fmt(d.fecha) + ". Gracias.";
+    }
+    return "Hola, soy " + d.nombre + ". Necesito reprogramar mi compra. Mi cita actual es el " + fmt(d.actual) +
+      " y prefiero la nueva fecha del " + fmt(d.nueva) + ". ¿Me confirman? Gracias.";
+  }
+
+  document.querySelectorAll("form").forEach(function(f){
+    f.addEventListener("submit", function(e){
+      e.preventDefault();
+      var datos = {};
+      var ok = true;
+      f.querySelectorAll("input,select").forEach(function(c){
+        var v = c.value.trim();
+        datos[c.name] = v;
+        if(!v){ ok = false; c.style.borderColor = "#c0392b"; } else { c.style.borderColor = ""; }
+      });
+      if(!ok){
+        var vacio = Array.from(f.querySelectorAll("input,select")).find(function(c){ return !c.value.trim(); });
+        if(vacio) vacio.focus();
+        return;
+      }
+      var url = "https://wa.me/" + NUM + "?text=" + encodeURIComponent(mensaje(f.getAttribute("data-tipo"), datos));
+      window.location.href = url;
+    });
+  });
+})();
+</script>
+</body>
+</html>
